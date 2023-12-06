@@ -10,4 +10,4 @@ from rest_framework.permissions import AllowAny
 class PostViewSet(ModelViewSet):
     queryset = Post.objects.all()
     serializer_class = PostSerializer
-    permission_classes = [AllowAny]
+    permission_classes = [AllowAny]  # FIXME: 인증 적용
