@@ -39,6 +39,10 @@ INSTALLED_APPS = [
     "django.contrib.messages",
     "django.contrib.staticfiles",
     "debug_toolbar",
+    "instagram",
+    "accounts",
+    "rest_framework",
+    "django_extensions",
 ]
 
 MIDDLEWARE = [
@@ -102,6 +106,7 @@ AUTH_PASSWORD_VALIDATORS = [
     },
 ]
 
+AUTH_USER_MODEL = "accounts.User"
 
 # Internationalization
 # https://docs.djangoproject.com/en/4.1/topics/i18n/
@@ -133,3 +138,9 @@ DEFAULT_AUTO_FIELD = "django.db.models.BigAutoField"
 
 # debug_toolbar를 사용할 IP 목록 설정
 INTERNAL_IPS = ["127.0.0.1"]
+
+REST_FRAMEWORK = {
+    "DEFAULT_PERMISSION_CLASSES": [
+        "rest_framework.permissions.IsAuthenticated",
+    ]
+}
