@@ -6,6 +6,7 @@ import Login from "./Login";
 function Router() {
   return (
     <Routes path="/accounts">
+      {/*부모 디렉토리를 받음 */}
       <Route path="/profile" element={<Profile />}></Route>
       <Route path="/login" element={<Login />}></Route>
     </Routes>
