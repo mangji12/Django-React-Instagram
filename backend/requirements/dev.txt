@@ -1,0 +1,6 @@
+-r requirements/common.txt 
+
+pillow
+django-debug-toolbar
+django-cors-headers
+django-extensions
