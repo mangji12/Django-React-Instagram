@@ -1,6 +1,7 @@
 import React from "react";
 import ReactDOM from "react-dom/client";
 import "./index.css";
+import { Button } from "antd";
 import PostList from "./components/PostList";
 import Root from "./pages";
 import { BrowserRouter } from "react-router-dom";
