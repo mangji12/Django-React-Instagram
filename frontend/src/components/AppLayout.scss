@@ -20,6 +20,10 @@
 
         .pagetitle {
             margin : 0 10px 0 10px;
+            .logo {
+                display: flex;
+                align-items: center;
+            }
         }
         .search {
             width : 80%;
