@@ -1,6 +1,6 @@
 import React from "react";
-import { Card } from "antd";
-
+import { Avatar, Card } from "antd";
+import { HeartOutlined, HeartFilled, UserOutlined } from "@ant-design/icons";
 function Post({ post }) {
   const { caption, author, image } = post;
   return (
@@ -8,9 +8,13 @@ function Post({ post }) {
       style={{ justifyContent: "center" }}
       hoverable
       cover={<img alt={caption} src={image} style={{ width: "250px" }} />}
-      actions={["좋아요"]}
+      actions={[<HeartOutlined />]}
     >
-      <Card.Meta title={author} description={caption} />
+      <Card.Meta
+        avatar={<Avatar size="large" icon={<UserOutlined />} />}
+        title={author}
+        description={caption}
+      />
     </Card>
   );
 }
