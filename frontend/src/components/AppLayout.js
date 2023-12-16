@@ -14,7 +14,7 @@ function AppLayout(props) {
           <div className="logo">
             <svg
               aria-label="Instagram"
-              class="x1lliihq x1n2onr6 x5n08af"
+              className="x1lliihq x1n2onr6 x5n08af"
               fill="currentColor"
               height="24"
               role="img"

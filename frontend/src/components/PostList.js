@@ -2,10 +2,9 @@ import React, { useEffect, useState } from "react";
 import Axios from "axios";
 import Post from "./Post";
 
-const apiurl = "http://127.0.0.1:8000/api/";
-
 function PostList() {
   const [state, setstate] = useState(null);
+  const apiurl = "http://127.0.0.1:8000/api/";
 
   useEffect(() => {
     const fetchdata = async () => {
