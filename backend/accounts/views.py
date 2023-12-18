@@ -3,6 +3,8 @@ from rest_framework.response import Response
 from rest_framework.viewsets import ModelViewSet
 from django.contrib.auth import get_user_model
 from .serializers import SignupSerializer
+from rest_framework.authentication import BasicAuthentication
+from rest_framework_simplejwt.authentication import JWTAuthentication
 
 User = get_user_model()
 
@@ -11,6 +13,7 @@ User = get_user_model()
 class SignUpView(ModelViewSet):
     queryset = User.objects.all()
     serializer_class = SignupSerializer
+    authentication_classes = [JWTAuthentication]
 
     def create(self, request, *args, **kwargs):
         serializer = self.get_serializer(data=request.data)
