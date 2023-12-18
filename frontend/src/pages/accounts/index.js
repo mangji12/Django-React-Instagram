@@ -19,6 +19,6 @@ export default function Accounts() {
     { path: "/signup", element: <Signup /> },
     { path: "/login", element: <Login /> },
   ]);
-  console.log(routes); // 정의된 라우팅 정보 확인
+  // console.log(routes); // 정의된 라우팅 정보 확인
   return routes; // Routes 컴포넌트 사용하지 않음
 }
