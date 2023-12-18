@@ -7,7 +7,9 @@ import Axios from "axios";
 export default function Signup() {
   const [fieldErrors, setfieldErrors] = useState({});
   const navigate = useNavigate();
+
   console.log(navigate);
+
   const onFinishFailed = (errorInfo) => {
     console.log("Failed:", errorInfo);
   };
@@ -49,6 +51,7 @@ export default function Signup() {
       }
     }
   };
+
   return (
     <Form
       name="basic"
