@@ -21,10 +21,11 @@ ALLOWED_HOSTS = []
 REST_FRAMEWORK = {
     "DEFAULT_AUTHENTICATION_CLASSES": [
         "rest_framework_simplejwt.authentication.JWTAuthentication",
-        "rest_framework.authentication.BasicAuthentication",
-        # "rest_framework.authentication.SessionAuthentication",
     ]
 }
+
+# AUTH_TOKEN_BLACKLIST_ENABLED = True
+# AUTH_TOKEN_CREATOR_CLASS = None
 
 JWT_AUTH = {
     "JWT_SECRET_KEY": SECRET_KEY,

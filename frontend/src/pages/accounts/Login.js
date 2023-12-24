@@ -3,12 +3,14 @@ import { Card, Form, Input, Button, Checkbox, notification } from "antd";
 import { useNavigate } from "react-router-dom";
 import React from "react";
 import Axios from "axios";
-import useLocalStorage from "../../utils/useLocalStorage";
+// import useLocalStorage from "../../utils/useLocalStorage1";
+import { useTokenContext, set_token, delete_token } from "../../store";
 
 export default function Login() {
-  const [fieldErrors, setfieldErrors] = useState({});
+  const { state, dispatch } = useTokenContext();
   const navigate = useNavigate();
-  const [jwtToken, setjwtToken] = useLocalStorage("jwtToken", "");
+  // const [Tokens, setjwtToken] = useLocalStorage("Tokens", {});
+  const [fieldErrors, setfieldErrors] = useState({});
 
   const onFinishFailed = (errorInfo) => {
     console.log("Failed:", errorInfo);
@@ -22,14 +24,24 @@ export default function Login() {
 
     try {
       const response = await Axios.post(apiurl, { username, password });
-      // console.log("response :", response);
+      console.log("response :", response.data.refresh);
+
+      // console.log(response.data["access"], "and", response.data["refresh"]);
+      const {
+        data: { access },
+      } = response;
+      // dispatch({ type: "SET_TOKEN", payload: access });
+      dispatch(set_token(access));
 
       const {
-        data: { access: jwtToken },
+        data: { refresh },
       } = response;
+      // dispatch({ type: "SET_TOKEN", payload: refresh });
+      // console.log(refresh);
 
-      setjwtToken(jwtToken);
-
+      if (window.localStorage.jwtToken)
+        console.log("로컬에 저장된 토큰: ", localStorage.jwtToken);
+      // console.log("토큰을 정상적으로 로딩하였습니다 : ", Token);
       notification.success({
         message: "로그인 성공!",
         description: "메인 페이지로 이동합니다.",
@@ -42,20 +54,20 @@ export default function Login() {
         const { data: fieldErrorMessages } = error.response;
         notification.error({
           message: "로그인 실패!",
-          description: fieldErrorMessages.non_field_errors[0],
+          // description: fieldErrorMessages.non_field_errors[0],
         });
-        setfieldErrors(
-          Object.entries(fieldErrorMessages).reduce(
-            (acc, [fieldName, errors]) => {
-              acc[fieldName] = {
-                validatestatus: "error",
-                help: errors.join(" "),
-              };
-              return acc;
-            },
-            {}
-          )
-        );
+        // setfieldErrors(
+        //   Object.entries(fieldErrorMessages).reduce(
+        //     (acc, [fieldName, errors]) => {
+        //       acc[fieldName] = {
+        //         validatestatus: "error",
+        //         help: errors.join(" "),
+        //       };
+        //       return acc;
+        //     },
+        //     {}
+        //   )
+        // );
       }
     }
   };

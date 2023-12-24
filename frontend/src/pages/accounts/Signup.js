@@ -8,7 +8,7 @@ export default function Signup() {
   const [fieldErrors, setfieldErrors] = useState({});
   const navigate = useNavigate();
 
-  console.log(navigate);
+  // console.log(navigate);
 
   const onFinishFailed = (errorInfo) => {
     console.log("Failed:", errorInfo);
@@ -16,12 +16,13 @@ export default function Signup() {
 
   const onFinish = async (values) => {
     const { username, password } = values;
-    const apiurl = "http://127.0.0.1:8000/accounts/signup/";
+    const apiurl = "http://127.0.0.1:8000/accounts/api/signup/";
 
     setfieldErrors({});
-
+    // console.log("username :", username, "password :", password);
     try {
-      await Axios.post(apiurl, { username, password });
+      const response = await Axios.post(apiurl, { username, password });
+      console.log("response: ", response);
       notification.success({
         message: "회원가입 성공!",
         description: "회원가입을 환영합니다.",
@@ -41,7 +42,7 @@ export default function Signup() {
             (acc, [fieldName, errors]) => {
               acc[fieldName] = {
                 validatestatus: "error",
-                help: errors.join(" "),
+                // help: errors.join(" "),
               };
               return acc;
             },
