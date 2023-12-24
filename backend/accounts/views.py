@@ -13,10 +13,13 @@ User = get_user_model()
 class SignUpView(ModelViewSet):
     queryset = User.objects.all()
     serializer_class = SignupSerializer
-    authentication_classes = [JWTAuthentication]
 
-    def create(self, request, *args, **kwargs):
-        serializer = self.get_serializer(data=request.data)
-        serializer.is_valid(raise_exception=True)
-        self.perform_create(serializer)  # 객체 생성. save()가 아님.
-        return Response(serializer.data)
+    # 클라이언트가 입력한 폼을 받아오는 메서드
+    def perform_create(self, serializer):
+        serializer.save()
+
+    # def create(self, request, *args, **kwargs):
+    #     serializer = self.get_serializer(data=request.data)
+    #     serializer.is_valid(raise_exception=True)  # 실패하면 validation error을 발생시킴
+    #     self.perform_create(serializer)  # 객체 생성. save()가 아님.
+    #     return Response(serializer.data)
