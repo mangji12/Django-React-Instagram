@@ -11,7 +11,7 @@ class Post(models.Model):
     author = models.ForeignKey(User, on_delete=models.CASCADE)
     caption = models.TextField(max_length=500)
     image = models.ImageField(upload_to="instagram/%y/%m/%d")
-    tag = models.ManyToManyField("TagSet", related_name="post_tags")
+    tag = models.ManyToManyField("TagSet", blank=True, related_name="post_tags")
     like = models.ManyToManyField(
         settings.AUTH_USER_MODEL, related_name="like_post_set"
     )
