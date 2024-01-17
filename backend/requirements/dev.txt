@@ -1,4 +1,4 @@
--r requirements/common.txt 
+-r ./common.txt 
 
 pillow
 django-debug-toolbar
