@@ -20,11 +20,12 @@ urlpatterns = [
     path("admin/", admin.site.urls),
     path("instagram/", include("instagram.urls")),
     path("accounts/", include("accounts.urls")),
-    path("docs/", schema_view.with_ui("swagger", cache_timeout=0), name="docs"),
 ]
 
 if settings.DEBUG:
-    urlpatterns += static(settings.MEDIA_URL, document_root=settings.MEDIA_ROOT)
+    urlpatterns += [
+        path("docs/", schema_view.with_ui("swagger", cache_timeout=0), name="docs")
+    ] + static(settings.MEDIA_URL, document_root=settings.MEDIA_ROOT)
 
     import debug_toolbar
 
