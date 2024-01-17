@@ -1,16 +1,22 @@
 import { useEffect, useState } from "react";
+import { useCookies, Cookies } from "react-cookie";
 import { Card, Form, Input, Button, Checkbox, notification } from "antd";
-import { useNavigate } from "react-router-dom";
+import { useNavigate, useLocation } from "react-router-dom";
 import React from "react";
 import Axios from "axios";
 // import useLocalStorage from "../../utils/useLocalStorage1";
 import { useTokenContext, set_token, delete_token } from "../../store";
 
 export default function Login() {
-  const { state, dispatch } = useTokenContext();
+  // contextAPI를 사용하고 싶어서 쓸 수 있도록 넘긴 값들을 받음.
+  // const { state, dispatch } = useTokenContext();
   const navigate = useNavigate();
-  // const [Tokens, setjwtToken] = useLocalStorage("Tokens", {});
   const [fieldErrors, setfieldErrors] = useState({});
+  const [cookie, setCookie] = useCookies(["access_token", "refresh_token"]);
+
+  const onCookie = (name, token) => {
+    setCookie(name, token);
+  };
 
   const onFinishFailed = (errorInfo) => {
     console.log("Failed:", errorInfo);
@@ -24,50 +30,37 @@ export default function Login() {
 
     try {
       const response = await Axios.post(apiurl, { username, password });
-      console.log("response :", response.data.refresh);
-
-      // console.log(response.data["access"], "and", response.data["refresh"]);
-      const {
-        data: { access },
-      } = response;
-      // dispatch({ type: "SET_TOKEN", payload: access });
-      dispatch(set_token(access));
-
-      const {
-        data: { refresh },
-      } = response;
-      // dispatch({ type: "SET_TOKEN", payload: refresh });
-      // console.log(refresh);
-
-      if (window.localStorage.jwtToken)
-        console.log("로컬에 저장된 토큰: ", localStorage.jwtToken);
-      // console.log("토큰을 정상적으로 로딩하였습니다 : ", Token);
+      const token = await response.data;
+      await onCookie("access_token", token.access);
+      await onCookie("refresh_token", token.refresh);
+      await console.log(
+        "쿠키 존재여부 :",
+        document.cookie.getItem(["access_token"])
+      );
       notification.success({
         message: "로그인 성공!",
         description: "메인 페이지로 이동합니다.",
       });
-      // window.location.href = "/accounts/login";
-      navigate("../profile");
+      navigate("/accounts/profile");
     } catch (error) {
-      // 서버로부터 받은 에러를 표현하는 로직
       if (error.response) {
         const { data: fieldErrorMessages } = error.response;
         notification.error({
           message: "로그인 실패!",
-          // description: fieldErrorMessages.non_field_errors[0],
+          description: fieldErrorMessages.non_field_errors[0],
         });
-        // setfieldErrors(
-        //   Object.entries(fieldErrorMessages).reduce(
-        //     (acc, [fieldName, errors]) => {
-        //       acc[fieldName] = {
-        //         validatestatus: "error",
-        //         help: errors.join(" "),
-        //       };
-        //       return acc;
-        //     },
-        //     {}
-        //   )
-        // );
+        setfieldErrors(
+          Object.entries(fieldErrorMessages).reduce(
+            (acc, [fieldName, errors]) => {
+              acc[fieldName] = {
+                validatestatus: "error",
+                help: errors.join(" "),
+              };
+              return acc;
+            },
+            {}
+          )
+        );
       }
     }
   };
@@ -89,7 +82,7 @@ export default function Login() {
           remember: true,
         }}
         onFinish={onFinish}
-        // onFinishFailed={onFinishFailed}
+        onFinishFailed={onFinishFailed}
         autoComplete="off"
       >
         <Form.Item

@@ -4,7 +4,7 @@ import Post from "./Post";
 
 function PostList() {
   const [state, setstate] = useState(null);
-  const apiurl = "http://127.0.0.1:8000/api/";
+  const apiurl = "http://127.0.0.1:8000/instagram/api/";
 
   useEffect(() => {
     const fetchdata = async () => {

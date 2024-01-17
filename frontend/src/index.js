@@ -11,11 +11,11 @@ import { TokenProvider } from "./store";
 const root = createRoot(document.getElementById("root"));
 
 root.render(
-  <BrowserRouter>
-    <TokenProvider>
+  <TokenProvider>
+    <BrowserRouter>
       <Root />
-    </TokenProvider>
-  </BrowserRouter>
+    </BrowserRouter>
+  </TokenProvider>
 );
 
 // // ReactDOM.render(
