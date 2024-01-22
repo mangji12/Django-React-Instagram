@@ -1,0 +1,21 @@
+version: "1.0"
+
+services:
+
+  backend:
+    build: ./backend
+    command: gunicorn backend.wsgi:application --bind 0.0.0.0:80
+    volumes:
+      - ./backend:/app
+    ports:
+      - "80:80"
+    environment:
+      DB_HOST: db-postgre.chcsm8msmncb.ap-northeast-2.rds.amazonaws.com
+      DB_USER: db-postgre
+      DB_NAME: postgres
+      DB_PORT: 5432
+
+  frontend:
+    build: ./frontend
+    ports:
+      - "80:80"

@@ -47,6 +47,7 @@ INSTALLED_APPS = [
     "rest_framework",
     "rest_framework_simplejwt",
     "instagram",
+    "storages",
     "accounts",
     "drf_yasg",
 ]
@@ -86,11 +87,35 @@ WSGI_APPLICATION = "backend.wsgi.application"
 
 DATABASES = {
     "default": {
-        "ENGINE": "django.db.backends.sqlite3",
-        "NAME": BASE_DIR / "db.sqlite3",
+        "ENGINE": os.environ.get("DB_ENGINE", "django.db.backends.postgresql"),
+        "HOST": os.environ.get("DB_HOST"),  # 엔드포인트
+        "PORT": os.environ.get("DB_PORT"),
+        "NAME": "postgres",  # db 기술 이름
+        "USER": "ckddlsdl",  # db 마스터 이름
+        "PASSWORD": os.environ.get("DB_PASSWORD"),
     }
 }
 
+# AWS 설정
+AWS_ACCESS_KEY_ID = os.environ.get("AWS_ACCESS_KEY_ID")
+AWS_SECRET_ACCESS_KEY = os.environ.get("AWS_SECRET_ACCESS_KEY")
+AWS_REGION = "ap-northeast-2"
+
+# S3 스토리지
+AWS_STORAGE_BUCKET_NAME = "django-react-bucket"
+AWS_S3_CUSTOM_DOMAIN = "%s.s3.%s.amazonaws.com" % (AWS_STORAGE_BUCKET_NAME, AWS_REGION)
+
+# 정적 파일 설정
+# AWS_LOCATION = "static"  # S3 버킷 내에서 정적 파일을 저장할 폴더
+STATIC_URL = f"https://{AWS_S3_CUSTOM_DOMAIN}/static/"
+STATICFILES_STORAGE = "storages.backends.s3boto3.S3Boto3Storage"
+
+# media파일 설정
+# AWS_MEDIA_LOCATION = "media"  # S3 버킷 내에서 media 파일을 저장할 폴더
+MEDIA_URL = f"https://{AWS_S3_CUSTOM_DOMAIN}/media/"
+DEFAULT_FILE_STORAGE = "storages.backends.s3boto3.S3Boto3Storage"
+
+DEFAULT_AUTO_FIELD = "django.db.models.BigAutoField"
 
 # Password validation
 # https://docs.djangoproject.com/en/5.0/ref/settings/#auth-password-validators
